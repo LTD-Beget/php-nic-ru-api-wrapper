@@ -63,7 +63,7 @@ class Client
     {
         switch ($name) {
             case 'contracts':
-                $api = new Api\Accounts($this);
+                $api = new Api\Contracts($this);
                 break;
             case 'accounts':
                 $api = new Api\Accounts($this);
