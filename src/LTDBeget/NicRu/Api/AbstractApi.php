@@ -82,7 +82,14 @@ abstract class AbstractApi implements ApiInterface
             } else {
                 $first = false;
             }
-            $content .= $key . ":" . $param;
+
+            if(is_array($param)) {
+                foreach($param as $multi_line_param) {
+                    $content .= $key . ":" . $multi_line_param;
+                }
+            } else {
+                $content .= $key . ":" . $param;
+            }
         }
         $content = iconv('UTF-8', 'KOI8-R', $content);
         $content = [
