@@ -7,7 +7,7 @@ class Servers extends AbstractApi
     protected $type = "server";
 
 
-    public function create($params)
+    public function create(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'server',
@@ -16,7 +16,7 @@ class Servers extends AbstractApi
     }
 
 
-    public function update($params)
+    public function update(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'server',
@@ -25,7 +25,7 @@ class Servers extends AbstractApi
     }
 
 
-    public function search($params)
+    public function search(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'server',
@@ -34,7 +34,7 @@ class Servers extends AbstractApi
     }
 
 
-    public function delete($params)
+    public function delete(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'server',

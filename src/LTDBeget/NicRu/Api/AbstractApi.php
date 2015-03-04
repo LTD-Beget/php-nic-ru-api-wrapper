@@ -3,6 +3,7 @@
 namespace LTDBeget\NicRu\Api;
 
 use LTDBeget\NicRu\Client;
+use LTDBeget\NicRu\Exception\NotImplementedException;
 
 /**
  * Abstract class for Api classes
@@ -12,6 +13,7 @@ use LTDBeget\NicRu\Client;
 abstract class AbstractApi implements ApiInterface
 {
     protected $type = "";
+
     /**
      * Default entries per page
      */
@@ -40,18 +42,7 @@ abstract class AbstractApi implements ApiInterface
 
 
     /**
-     * {@inheritDoc}
-     */
-    protected function get(array $parameters = [], $requestHeaders = [])
-    {
-        $response = $this->client->getHttpClient()->get('', $parameters, $requestHeaders);
-
-        return $response->getContent();
-    }
-
-
-    /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     protected function post(array $parameters = [], $requestHeaders = [])
     {
@@ -83,12 +74,9 @@ abstract class AbstractApi implements ApiInterface
                 $first = false;
             }
 
-            if(is_array($param)) {
-                foreach($param as $multi_line_param) {
-                    $content .= $key . ":" . $multi_line_param;
-                }
-            } else {
-                $content .= $key . ":" . $param;
+            $param = explode("\n", $param);
+            foreach ($param as $multi_line_param) {
+                $content .= $key . ":" . $multi_line_param . "\n";
             }
         }
 
@@ -99,7 +87,7 @@ abstract class AbstractApi implements ApiInterface
 
         $response = $this->client->getHttpClient()->post('', $content, $requestHeaders);
 
-        return $response->getArrayContent();
+        return $response;
     }
 
 
@@ -108,9 +96,7 @@ abstract class AbstractApi implements ApiInterface
      */
     protected function patch(array $parameters = [], $requestHeaders = [])
     {
-        $response = $this->client->getHttpClient()->patch('', $parameters, $requestHeaders);
-
-        return $response->getContent();
+        return $this->client->getHttpClient()->patch('', $parameters, $requestHeaders);
     }
 
 
@@ -119,19 +105,66 @@ abstract class AbstractApi implements ApiInterface
      */
     protected function put(array $parameters = [], $requestHeaders = [])
     {
-        $response = $this->client->getHttpClient()->put('', $parameters, $requestHeaders);
-
-        return $response->getContent();
+        return $this->client->getHttpClient()->put('', $parameters, $requestHeaders);
     }
 
 
     /**
-     * {@inheritDoc}
+     * @param array $params
+     *
+     * @return \LTDBeget\NicRu\Response
+     * @throws NotImplementedException
      */
-    protected function delete(array $parameters = [], $requestHeaders = [])
+    public function create(array $params)
     {
-        $response = $this->client->getHttpClient()->delete('', $parameters, $requestHeaders);
+        throw new NotImplementedException("Method 'create' is not implemented for this API");
+    }
 
-        return $response->getContent();
+
+    /**
+     * @param array $params
+     *
+     * @return \LTDBeget\NicRu\Response
+     * @throws NotImplementedException
+     */
+    public function search(array $params)
+    {
+        throw new NotImplementedException("Method 'search' is not implemented for this API");
+    }
+
+
+    /**
+     * @param array $params
+     *
+     * @return \LTDBeget\NicRu\Response
+     * @throws NotImplementedException
+     */
+    public function update(array $params)
+    {
+        throw new NotImplementedException("Method 'update' is not implemented for this API");
+    }
+
+
+    /**
+     * @param array $params
+     *
+     * @return \LTDBeget\NicRu\Response
+     * @throws NotImplementedException
+     */
+    public function get(array $params)
+    {
+        throw new NotImplementedException("Method 'get' is not implemented for this API");
+    }
+
+
+    /**
+     * @param array $params
+     *
+     * @return \LTDBeget\NicRu\Response
+     * @throws NotImplementedException
+     */
+    public function delete(array $params)
+    {
+        throw new NotImplementedException("Method 'delete' is not implemented for this API");
     }
 }

@@ -7,7 +7,6 @@ use Buzz\Listener\ListenerInterface;
 
 use LTDBeget\NicRu\Exception\ErrorException;
 use LTDBeget\NicRu\Exception\RuntimeException;
-use LTDBeget\NicRu\HttpClient\Listener\ErrorListener;
 use LTDBeget\NicRu\HttpClient\Message\Request;
 use LTDBeget\NicRu\HttpClient\Message\Response;
 
@@ -52,8 +51,6 @@ class HttpClient implements HttpClientInterface
         $this->base_url = $baseUrl;
         $this->options  = array_merge($this->options, $options);
         $this->client   = $client;
-
-        $this->addListener(new ErrorListener($this->options));
 
         $this->clearHeaders();
     }
@@ -146,6 +143,7 @@ class HttpClient implements HttpClientInterface
 
     /**
      * {@inheritDoc}
+     * @return \LTDBeget\NicRu\Response
      */
     public function request($path, array $parameters = [], $httpMethod = 'GET', array $headers = [])
     {
@@ -155,11 +153,8 @@ class HttpClient implements HttpClientInterface
         $request->addHeaders($headers);
         $request->setContent(http_build_query($parameters));
 
-        $hasListeners = 0 < count($this->listeners);
-        if ($hasListeners) {
-            foreach ($this->listeners as $listener) {
-                $listener->preSend($request);
-            }
+        foreach ($this->listeners as $listener) {
+            $listener->preSend($request);
         }
 
         $response = new Response();
@@ -175,13 +170,11 @@ class HttpClient implements HttpClientInterface
         $this->lastRequest  = $request;
         $this->lastResponse = $response;
 
-        if ($hasListeners) {
-            foreach ($this->listeners as $listener) {
-                $listener->postSend($request, $response);
-            }
+        foreach ($this->listeners as $listener) {
+            $listener->postSend($request, $response);
         }
 
-        return $response;
+        return new \LTDBeget\NicRu\Response($response);
     }
 
 

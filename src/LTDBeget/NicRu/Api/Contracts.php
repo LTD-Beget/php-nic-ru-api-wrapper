@@ -7,7 +7,7 @@ class Contracts extends AbstractApi
     protected $type = "contract";
 
 
-    public function search($params)
+    public function search(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'contract',
@@ -16,7 +16,7 @@ class Contracts extends AbstractApi
     }
 
 
-    public function get($params)
+    public function get(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'contract',
@@ -25,7 +25,7 @@ class Contracts extends AbstractApi
     }
 
 
-    public function create($params)
+    public function create(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'contract',
@@ -34,7 +34,7 @@ class Contracts extends AbstractApi
     }
 
 
-    public function update($params)
+    public function update(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'contract',

@@ -13,60 +13,60 @@ use Buzz\Message\RequestInterface;
  */
 class GenerateRequestIdListener implements ListenerInterface
 {
-	/**
-	 * @var array
-	 */
-	private $partnerWebSite;
+    /**
+     * @var array
+     */
+    private $partnerWebSite;
 
 
-	/**
-	 * @param array $partnerWebSite
-	 */
-	public function __construct($partnerWebSite)
-	{
-		$this->partnerWebSite = $partnerWebSite;
-	}
+    /**
+     * @param array $partnerWebSite
+     */
+    public function __construct($partnerWebSite)
+    {
+        $this->partnerWebSite = $partnerWebSite;
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 *
-	 * @throws InvalidArgumentException
-	 */
-	public function preSend(RequestInterface $request)
-	{
-		$requestId  = date('YmdHis.') . getmypid() . '@' . $this->partnerWebSite;
-		$parameters = [
-			'request-id' => $requestId,
-		];
+    /**
+     * {@inheritDoc}
+     *
+     * @throws InvalidArgumentException
+     */
+    public function preSend(RequestInterface $request)
+    {
+        $requestId  = date('YmdHis.') . getmypid() . '@' . $this->partnerWebSite;
+        $parameters = [
+            'request-id' => $requestId,
+        ];
 
-		$content_out = "";
-		foreach ($parameters as $key => $param) {
-			$content_out .= $key . ":" . $param;
-			$content_out .= "\n";
-		}
+        $content_out = "";
 
-		$content = $request->getContent();
-		parse_str($content, $content);
-		$content = $content['SimpleRequest'];
-		$content = iconv('KOI8-R', 'UTF-8', $content);
+        foreach ($parameters as $key => $param) {
+            $content_out .= $key . ":" . $param;
+            $content_out .= "\n";
+        }
 
-		$content = $content_out . $content;
+        $content = $request->getContent();
+        parse_str($content, $content);
+        $content = $content['SimpleRequest'];
+        $content = iconv('KOI8-R', 'UTF-8', $content);
 
-		$content = iconv('UTF-8', 'KOI8-R', $content);
-		$content = [
-			'SimpleRequest' => $content,
-		];
-		// var_dump($content);die;
+        $content = $content_out . $content;
 
-		$request->setContent(http_build_query($content));
-	}
+        $content = iconv('UTF-8', 'KOI8-R', $content);
+        $content = [
+            'SimpleRequest' => $content,
+        ];
+
+        $request->setContent(http_build_query($content));
+    }
 
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public function postSend(RequestInterface $request, MessageInterface $response)
-	{
-	}
+    /**
+     * {@inheritDoc}
+     */
+    public function postSend(RequestInterface $request, MessageInterface $response)
+    {
+    }
 }

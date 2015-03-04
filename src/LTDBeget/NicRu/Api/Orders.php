@@ -7,7 +7,7 @@ class Orders extends AbstractApi
     protected $type = "order";
 
 
-    public function create($params)
+    public function create(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'order',
@@ -16,7 +16,7 @@ class Orders extends AbstractApi
     }
 
 
-    public function search($params)
+    public function search(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'order',
@@ -25,7 +25,7 @@ class Orders extends AbstractApi
     }
 
 
-    public function get($params)
+    public function get(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'order',
@@ -34,7 +34,7 @@ class Orders extends AbstractApi
     }
 
 
-    public function delete($params)
+    public function delete(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'order',

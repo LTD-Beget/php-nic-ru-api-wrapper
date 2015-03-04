@@ -7,7 +7,7 @@ class Accounts extends AbstractApi
     protected $type = "account";
 
 
-    public function get($params)
+    public function get(array $params)
     {
         return $this->post(array_merge([
             'request'   => 'account',
