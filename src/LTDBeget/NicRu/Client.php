@@ -133,8 +133,6 @@ class Client
      * generate request-id
      *
      * @param $partnerWebSite
-     *
-     * @internal param string $partner -web-site
      */
     public function generateRequestId($partnerWebSite)
     {

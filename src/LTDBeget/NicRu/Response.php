@@ -246,18 +246,29 @@ class Response
 
 
     /**
+     * Return body parameter by key
      * @param $key
      * @param null $defaultValue
      *
      * @return null|string
      */
-    public function getBody($key, $defaultValue = null)
+    public function getBodyParam($key, $defaultValue = null)
     {
         if (!isset($this->body[$key])) {
             return $defaultValue;
         }
 
         return implode("\n", $this->body[$key]);
+    }
+
+
+    /**
+     * Return all parsed body
+     * @return \string[][]
+     */
+    public function getBody()
+    {
+        return $this->body;
     }
 
 
