@@ -4,7 +4,7 @@ namespace LTDBeget\NicRu\Api;
 
 class Orders extends AbstractApi
 {
-    protected $type = "order";
+    protected $type = "order-item";
 
 
     public function create(array $params)
