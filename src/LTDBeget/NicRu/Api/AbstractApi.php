@@ -74,7 +74,10 @@ abstract class AbstractApi implements ApiInterface
                 $first = false;
             }
 
-            $param = explode("\n", $param);
+            if(is_string($param)) {
+                $param = explode("\n", $param);
+            }
+
             foreach ($param as $multi_line_param) {
                 $content .= $key . ":" . $multi_line_param . "\n";
             }
