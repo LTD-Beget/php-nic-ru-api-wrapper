@@ -74,6 +74,14 @@ abstract class AbstractApi implements ApiInterface
                 $first = false;
             }
 
+            if(!$param) {
+                $param = "";
+            }
+
+            if(!is_array($param)) {
+                $param = (string)$param;
+            }
+
             if(is_string($param)) {
                 $param = explode("\n", $param);
             }
