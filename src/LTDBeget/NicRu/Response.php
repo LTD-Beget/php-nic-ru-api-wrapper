@@ -84,7 +84,7 @@ class Response
             throw new ResponseException("Incorrect response code: {$this->response->getStatusCode()}");
         }
 
-        $content      = iconv('KOI8-R', 'UTF-8', $this->response->getContent());
+        $content      = $this->getRawContent();
         $contentParts = explode("\r\n\r\n", $content);
 
         if (empty($contentParts)) {
@@ -215,7 +215,7 @@ class Response
      */
     public function getRawContent()
     {
-        return $this->response->getContent();
+        return iconv('KOI8-R', 'UTF-8', $this->response->getContent());
     }
 
 
