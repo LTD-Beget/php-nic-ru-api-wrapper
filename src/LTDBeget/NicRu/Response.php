@@ -95,8 +95,8 @@ class Response
             throw new ResponseException("Response header is empty!");
         }
 
-        $this->parseHeader($contentParts[0]);
-        $this->parseBody($contentParts[1]);
+        $this->parseHeader(trim($contentParts[0]));
+        $this->parseBody(trim($contentParts[1]));
 
         $this->isParsed = true;
     }
@@ -175,6 +175,10 @@ class Response
             $bodyLines = explode("\n", $body);
 
             foreach ($bodyLines as $line) {
+                if(empty($line) || $line[0] == "[") {
+                    continue;
+                }
+
                 $lineParts = $this->parseLine($line);
 
                 if (!$lineParts) {
