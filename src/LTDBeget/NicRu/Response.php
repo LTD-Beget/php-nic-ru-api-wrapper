@@ -210,6 +210,16 @@ class Response
 
 
     /**
+     * Return the raw response content
+     * @return string
+     */
+    public function getRawContent()
+    {
+        return $this->response->getContent();
+    }
+
+
+    /**
      * @return bool
      */
     public function isSuccess()
