@@ -161,6 +161,16 @@ class Response
 
 
     /**
+     * Получит количество блоков, которые попали в body
+     * @return int
+     */
+    public function getBodyBlockCount()
+    {
+        return count($this->body);
+    }
+
+
+    /**
      * Parse nic.ru api response body
      *
      * @param $body
@@ -174,10 +184,18 @@ class Response
         if ($this->isSuccess()) {
             $bodyLines = explode("\n", $body);
 
+            $i = -1;
             foreach ($bodyLines as $line) {
-                if(empty($line) || $line[0] == "[") {
+                if(empty($line)) {
                     continue;
                 }
+
+                if($line[0] == "[") {
+                    $i++;
+                    continue;
+                }
+
+                $i = $i == -1 ? 0 : $i;
 
                 $lineParts = $this->parseLine($line);
 
@@ -187,11 +205,15 @@ class Response
 
                 list($key, $value) = $lineParts;
 
-                if (!isset($this->body[$key])) {
-                    $this->body[$key] = [];
+                if(!isset($this->body[$i])) {
+                    $this->body[$i] = [];
                 }
 
-                $this->body[$key][] = $value;
+                if (!isset($this->body[$i][$key])) {
+                    $this->body[$i][$key] = [];
+                }
+
+                $this->body[$i][$key][] = $value;
             }
         } elseif ($this->getState() === 402) {
             $bodyLines = explode("\n", $body);
@@ -261,18 +283,20 @@ class Response
 
     /**
      * Return body parameter by key
+     *
      * @param $key
+     * @param int $index
      * @param null $defaultValue
      *
      * @return null|string
      */
-    public function getBodyParam($key, $defaultValue = null)
+    public function getBodyParam($key, $index = 0, $defaultValue = null)
     {
-        if (!isset($this->body[$key])) {
+        if (!isset($this->body[$index], $this->body[$index][$key])) {
             return $defaultValue;
         }
 
-        return implode("\n", $this->body[$key]);
+        return implode("\n", $this->body[$index][$key]);
     }
 
 
