@@ -4,7 +4,7 @@ namespace LTDBeget\NicRu\Api;
 
 class ServiceObjects extends AbstractApi
 {
-    protected $type = "service";
+    protected $type = "service-object";
 
 
     public function search(array $params)
