@@ -76,7 +76,7 @@ class Response
 
         $contentType = $this->response->getHeader("Content-Type");
 
-        if ($contentType !== "text/plain") {
+        if (!preg_match("/^.*text\/plain.*$/ui", $contentType)) {
             throw new ResponseException("Incorrect Content-Type of response: {$contentType}");
         }
 
