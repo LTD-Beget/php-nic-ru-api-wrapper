@@ -23,7 +23,7 @@ class Client
      */
     private $options = [
         'user_agent' => 'php-api',
-        'timeout'    => 60
+        'timeout'    => 300
     ];
 
     private $base_url = 'https://www.nic.ru/dns/dealer';
